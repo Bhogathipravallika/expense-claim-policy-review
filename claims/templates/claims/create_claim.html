@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Expense Claim</title>
+</head>
+
+<body>
+
+<h1>Expense Claim Review</h1>
+
+
+{% if missing_information %}
+
+    <h2>Missing Information</h2>
+
+    <p>Please provide all required information.</p>
+
+    <ul>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li>
+                    {{ field.label }}: {{ error }}
+                </li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+
+{% endif %}
+
+
+{% if policy_errors %}
+
+    <h2>Policy Review</h2>
+
+    <ul>
+        {% for error in policy_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+
+
+    <h3>Policy Evidence</h3>
+
+    <p>
+        {{ policy_evidence }}
+    </p>
+
+
+    {% if review_message %}
+
+        <h3>Review Explanation</h3>
+
+        <p>
+            {{ review_message }}
+        </p>
+
+    {% endif %}
+
+{% endif %}
+
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Submit Claim
+    </button>
+
+</form>
+
+</body>
+
+</html>
